@@ -52,11 +52,14 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN Includes */
-#include "PPM.hpp"
-#include "PWM.hpp"
-#include "safety_controller.hpp"
+#include "main.h"
+#include "stm32f0xx_hal.h"
+// #include "PPM.hpp"
+// #include "PWM.hpp"
+// #include "safety_controller.hpp"
 
 #include "sensorFusionInterface.hpp"
+#include "attitudeManagerInterface.h"
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
@@ -64,9 +67,9 @@ osThreadId attitudeManagerHandle;
 osThreadId sensorFusionHandle;
 
 /* USER CODE BEGIN Variables */
-PPMChannel *ppm = new PPMChannel(MAX_PPM_CHANNELS);
-PWMChannel *pwm = new PWMChannel();
-attitudeManager *attMng = new attitudeManager(ppm, pwm);
+// PPMChannel *ppm = new PPMChannel(MAX_PPM_CHANNELS);
+// PWMChannel *pwm = new PWMChannel();
+// attitudeManager *attMng = new attitudeManager(ppm, pwm);
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -129,7 +132,8 @@ void attitudeManagerExecute(void const * argument)
   for(;;)
   {
     RSSI_Check();
-    attMng->execute();
+    AttitudeManagerInterfaceExecute();
+    // attMng->execute();
     HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
     osDelay(500);
   }
